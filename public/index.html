@@ -8,12 +8,15 @@
 
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 	<script type="text/javascript" src="vendor/js/aframe.min.js"></script>
-	<script type="text/javascript" src="vendor/js/aframe-passthrough-component.min.js"></script>
 
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-	<a-scene>
-	</a-scene>
+	<a-scene>	
+		<a-entity gltf-model="url(./assets/plumbob.gltf)" position="0 -10 0" scale="0.2 0.2 0.2">
+		</a-entity>
+
+		<a-sphere position="0 0 0" radius="4.2" color="#F16745" roughness="0.8" width-segments="52" height-segments="52" material="shader:flat;side:double;color:#44d940;height:40;width:20;roughness:0.8" geometry="mergeTo:null;primitive:cone;height:5;radiusTop:0;segmentsHeight:1;segmentsRadial:3;thetaLength:200;radius:4.2;phiLength:360;phiStart:0;segmentsWidth:36"></a-sphere>
+	</a-scene>	
 </body>
 </html>
