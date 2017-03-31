@@ -101,10 +101,3 @@ class VoiceChat {
 		return Object.values(this.peerStreams);
 	}
 }
-
-var voiceChat = null;
-
-//init voicechat when dom is loaded
-document.addEventListener('DOMContentLoaded', function() {
-	voiceChat = new VoiceChat();
-});
