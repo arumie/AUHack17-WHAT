@@ -36,9 +36,10 @@ class VoiceChat {
 			// local p2p/ice failure
 		});
 
-		webrtc.on('connectivityError', function (peer) {
+		this.webrtc.on('connectivityError', function (peer) {
 			// remote p2p/ice failure
 		});
+	}
 }
 
 document.addEventListener('DOMContentLoaded', function() {
