@@ -1,3 +1,8 @@
+const dataType = {
+	geodata: 0,
+	other: 1 	
+}
+
 class VoiceChat {
 	constructor(){
 		this.initWebRTC();
@@ -33,14 +38,23 @@ class VoiceChat {
 		});
 
 		this.webrtc.on('iceFailed', function (peer) {
-			// local p2p/ice failure
+			//Local p2p/ice failure
 		});
 
-		webrtc.on('connectivityError', function (peer) {
-			// remote p2p/ice failure
+		this.webrtc.on('connectivityError', function (peer) {
+			//Remote p2p/ice failure
 		});
+	}
+
+	broadcastData(datatype, data) {
+		if(!this.webrtc)
+			return;
+
+		//TODO
+	}
 }
 
+//init voicechat when dom is loaded
 document.addEventListener('DOMContentLoaded', function() {
 	new VoiceChat();
 });
