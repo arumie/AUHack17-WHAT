@@ -2,17 +2,21 @@
 <html>
 <head>
 	<title>WHAT</title>
-	
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
-	<script type="text/javascript" src="vendor/js/aframe.min.js"></script>
 
+	<script type="text/javascript" src="vendor/js/simplewebrtc.min.js"></script>
+	<script type="text/javascript" src="vendor/js/aframe.js"></script>
+
+	<script type="text/javascript" src="js/webrtc.js"></script>
+	<script type="text/javascript" src="js/geo.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-	<a-scene>	
+	<a-scene>
 		<!--<a-assets>
     		<a-asset-item id="plumbob" src="/assets/plumbob.gltf"></a-asset-item>
   		</a-assets>
@@ -23,8 +27,8 @@
 		</a-entity>
 		<a-entity position="0 77 0">
 			<a-sphere radius="4.2" color="#F16745" roughness="0.8" width-segments="52" height-segments="52" material="shader:flat;side:double;color:#44d940;height:40;width:20;roughness:0.8" geometry="primitive:cone;height:5;radiusBottom:0;radiusTop:1;segmentsHeight:1;segmentsRadial:3;thetaLength:200;radius:4.2;phiLength:360;phiStart:0;segmentsWidth:36}"></a-sphere>
-		</a-entity>		
-		
-	</a-scene>	
+		</a-entity>
+
+	</a-scene>
 </body>
 </html>
