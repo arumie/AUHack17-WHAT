@@ -16,7 +16,3 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 var server = https.createServer(options, app).listen(port, function(){
 	console.log("Express server listening on port " + port);
 });
-
-app.get('/', function(req, res){
-	res.send('Hello World');
-});
