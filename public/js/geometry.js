@@ -31,7 +31,8 @@ class PositionHelper extends EventEmitter
 	initPosition (position) {
 		this.init_x = parseFloat(position.coords.latitude);
 		this.init_z = parseFloat(position.coords.longitude);
-		this.camera.setAttribute("position", "0 0 0");
+		this.camera.setAttribute("position", "0 2 0");
+		console.log("Home is: ["+this.init_x + "," + this.init_z+"]");
 	}
 
 
@@ -43,8 +44,8 @@ class PositionHelper extends EventEmitter
 		this.pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
 
 		this.emit("update", {
-			lat: this.pos_x, 
-			long: this.pos_z
+			lat: lat, 
+			long: long
 		});
 	}
 
@@ -105,7 +106,7 @@ class PositionHelper extends EventEmitter
 			scene.appendChild(element);
 		}
 		else {
-			per.setAttribute("position", this.generatePosition(lat, long));			
+			per.setAttribute("position", this.generatePosition(lat, long));	
 		}
 		console.log(this.generatePosition(lat,long));
 	}
