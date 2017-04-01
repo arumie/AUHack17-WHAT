@@ -44,7 +44,7 @@ class Main {
 		this.voiceChat.on("newPeer", function(peer){
 			self.sounds.error();
 			self.spatialSoundManager.addSoundSource(peer.id, peer.stream);
-			//self.positioner.addObject(peer.id);
+			self.positioner.addObject(peer.id);
 		});
 
 		this.voiceChat.on("disconnectedPeer", function(peer){

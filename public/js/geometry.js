@@ -43,6 +43,8 @@ class PositionHelper extends EventEmitter
 		this.pos_x = (long-this.init_z) * (40000000/360);
 		this.pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
 
+		this.camera.setAttribute("position", this.pos_x+" 2 "+this.pos_z);
+
 		this.emit("update", {
 			lat: lat, 
 			long: long
@@ -96,14 +98,7 @@ class PositionHelper extends EventEmitter
 		console.log("FUCK", id);
 		var per = document.getElementById(id);
 		if (per == null) {
-			var scene = document.getElementById("main-scene");
-			var element = document.createElement("a-sphere");
-			element.setAttribute("position", "0 0 0");
-			element.setAttribute("radius", "1.25");
-			element.setAttribute("color", "#FF88AA");
-			element.setAttribute("id", id); //this sets the id of the object.
-
-			scene.appendChild(element);
+			addObject(id);
 		}
 		else {
 			per.setAttribute("position", this.generatePosition(lat, long));	
