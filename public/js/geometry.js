@@ -45,16 +45,22 @@ class PositionHelper extends EventEmitter
 
 		this.camera.setAttribute("position", this.pos_x+" 2 "+this.pos_z);
 
+		console.log("lat and long: ", lat, long, "x and z: ", this.pos_x, this.pos_z);
+
 		this.emit("update", {
 			lat: lat, 
 			long: long
 		});
 	}
 
+	removeObject(id){
+		document.getElementById(id).parentNode.removeChild();
+	}
+
 	generatePosition (lat, long) {
 		var pos_x = (long-this.init_z) * (40000000/360);
 		var pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
-		return pos_x + " 5 " + pos_z;
+		return pos_x + " 2 " + pos_z;
 	}
 
 

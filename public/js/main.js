@@ -49,6 +49,7 @@ class Main {
 
 		this.voiceChat.on("disconnectedPeer", function(peer){
 			self.sounds.error();
+			self.positioner.removeObject(peer.id);
 		});
 
 
