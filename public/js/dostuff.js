@@ -41,5 +41,6 @@ const doStuffArray = [
 	"Posting dank memes...",
 	"Upvoting shitposts...",
 	"Send nudes...",
-	"Feeding back farts..."
+	"Feeding back farts...",
+	"So, who is this \"4CHAN\"??? "
 ];
