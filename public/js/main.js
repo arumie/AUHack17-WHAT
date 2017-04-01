@@ -8,11 +8,13 @@ class Main {
 		this.sounds = new Sounds();
 		this.voiceChat = new VoiceChat();
 
-		this.geolocation = new GeoService();
+		//this.geolocation = new GeoService();
 
 		this.doStuffArr = doStuffArray;
 
 		this.doStuffElem.innerHTML = 'Welcome!'
+
+		this.positioner = new PositionHelper("camera");
 
 		setTimeout(this.removeInitializationScreen, 4000);
 		setInterval(function(){
@@ -30,7 +32,10 @@ class Main {
 	}
 
 	updatePeerPosition(id, data){
+		console.log("DATA: ", id);
 		//Update 3d here
+			//no
+		this.positioner.updateObject(id, data.lat, data.long);
 	}
 
 	bindWebrtcEvent(){
@@ -39,6 +44,7 @@ class Main {
 		this.voiceChat.on("newPeer", function(peer){
 			self.sounds.error();
 			self.spatialSoundManager.addSoundSource(peer.id, peer.stream);
+			//self.positioner.addObject(peer.id);
 		});
 
 		this.voiceChat.on("data", function(data){
@@ -49,7 +55,7 @@ class Main {
 	bindGeoEvents(){
 		const self = this;
 
-		this.geolocation.on("update", function(data){
+		this.positioner.on("update", function(data) {
 			self.voiceChat.broadcastData("data", data)
 			self.updateMyPosition(data);
 		});

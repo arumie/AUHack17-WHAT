@@ -1,7 +1,8 @@
-class PositionHelper 
+class PositionHelper extends EventEmitter
 {
 	constructor (camera_id) {
-		this.camera = document.querySelector(camera_id);
+		super();
+		this.camera = document.getElementById(camera_id);
 		this.cam_rotation = new THREE.Euler();    // These are read-only.
 		this.cam_position = new THREE.Vector3();  //
 
@@ -15,7 +16,7 @@ class PositionHelper
 		this.pos_x  = 0;
 		this.pos_z  = 0;
 		
-		this.updateCameraValues();
+		//this.updateCameraValues();
 		
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(this.initPosition.bind(this));
@@ -30,7 +31,7 @@ class PositionHelper
 	initPosition (position) {
 		this.init_x = parseFloat(position.coords.latitude);
 		this.init_z = parseFloat(position.coords.longitude);
-		camera.setAttribute("position", "0 0 0");
+		this.camera.setAttribute("position", "0 0 0");
 	}
 
 
@@ -40,22 +41,24 @@ class PositionHelper
 		var long = position.coords.longitude;
 		this.pos_x = (long-this.init_z) * (40000000/360);
 		this.pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
-		//camera position is locked to relative position.
-		camera.setAttribute("position", this.pos_x + " 5 " + this.pos_z);
-		document.getElementById("stuff").innerHTML = this.pos_x + this.pos_z;
+
+		this.emit("update", {
+			lat: this.pos_x, 
+			long: this.pos_z
+		});
 	}
 
 	generatePosition (lat, long) {
-		this.pos_x = (long-this.init_z) * (40000000/360);
-		this.pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
-		return this.pos_x + " 5 " + this.pos_z;
+		var pos_x = (long-this.init_z) * (40000000/360);
+		var pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
+		return pos_x + " 5 " + pos_z;
 	}
 
 
-	updateCameraValues () {
-		this.cam_position.setFromMatrixPosition(camera.object3D.matrixWorld);
-		this.cam_rotation.setFromQuaternion(camera.object3D.quaternion);
-	}
+	/*updateCameraValues () {
+		this.cam_position.setFromMatrixPosition(this.camera.object3D.matrixWorld);
+		this.cam_rotation.setFromQuaternion(this.camera.object3D.quaternion);
+	}*/
 
 
 	relativeRotation (camera_id, obj_x, obj_z) {
@@ -74,12 +77,36 @@ class PositionHelper
 	}
 
 
-	addObject (lat, long) {
+	addObject (id) {
 		var scene = document.getElementById("main-scene");
 
 		var element = document.createElement("a-sphere");
-		element.setAttribute("position", this.generatePosition(lat,long));
+		element.setAttribute("position", "0 0 0");
+		element.setAttribute("radius", "1.25");
+		element.setAttribute("color", "#FF88AA");
+		element.setAttribute("id", id); //this sets the id of the object.
 
 		scene.appendChild(element);
+		console.log("SPHERE: ", element);
+	}
+
+
+	updateObject (id, lat, long) {
+		console.log("FUCK", id);
+		var per = document.getElementById(id);
+		if (per == null) {
+			var scene = document.getElementById("main-scene");
+			var element = document.createElement("a-sphere");
+			element.setAttribute("position", "0 0 0");
+			element.setAttribute("radius", "1.25");
+			element.setAttribute("color", "#FF88AA");
+			element.setAttribute("id", id); //this sets the id of the object.
+
+			scene.appendChild(element);
+		}
+		else {
+			per.setAttribute("position", this.generatePosition(lat, long));			
+		}
+		console.log(this.generatePosition(lat,long));
 	}
 }
