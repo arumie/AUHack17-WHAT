@@ -3,11 +3,7 @@ class Sounds {
     var audio = new Audio('../assets/error.mp3');
     audio.play();
   }
-  errorLength(){
-    console.log(audio.length)
-    return audio.length;
-  }
-
+  
   entering(){
     var audio = new Audio('../assets/entering.mp3');
     audio.play();

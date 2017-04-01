@@ -47,6 +47,8 @@ class SpatialSoundManager {
 		this.soundSources[id] = sound;
 
 		this.setSourcePosition(id, 0, 0, 0);
+
+		console.log("Added stream for peer " + id);
 	}
 
 	setSourceOrientation(id, x,y,z){

@@ -33,7 +33,7 @@ const doStuffArray = [
 	"Loading loadingscreens...",
 	"Pretending to load stuff...",
 	"Consulting the Oracle...",
-	"Polishing a turd..."
+	"Polishing a turd...",
 	"Pulling peoples fingers...",
 	"Making silly faces when people look away...",
 	"Hoarding free swag...",

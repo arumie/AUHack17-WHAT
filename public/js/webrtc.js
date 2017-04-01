@@ -51,13 +51,12 @@ class VoiceChat extends EventEmitter {
 			if (peer && peer.pc) {
 				peer.pc.on('iceConnectionStateChange', function (event) {
 					var state = peer.pc.iceConnectionState;
-					switch (state) {
-					case 'connected':
-						console.log("WEBRTC: " + event);
-					case 'completed':
-						console.log("WEBRTC: " + event);
-						if(!self.peerStreams[peer.stream.id])
+
+					if (state == 'completed') {
+						if(!self.peerStreams[peer.stream.id]) {
+							console.log("WEBRTC: new peer " + peer.id);
 							self.emit("newPeer", peer);
+						}
 
 						self.audio.srcObject = peer.stream;
 						self.peerStreams[peer.stream.id] = peer.stream;
@@ -91,9 +90,6 @@ class VoiceChat extends EventEmitter {
 			return;
 		}
 
-		var s = JSON.stringify(data);
-		console.log("SENDING: ", s);
-
 		this.webrtc.sendToAll(datatype, data);
 	}
 
@@ -101,9 +97,7 @@ class VoiceChat extends EventEmitter {
 		console.log("WEBRTC: joining room " + room);
 
 		this.webrtc.joinRoom(room, function (err, res) {
-			// TODO
-			console.log("WEBRTC: Joined " + room);
-			console.log(err, res);
+			console.log("WEBRTC: Joined room " + room);
 		});
 	}
 
