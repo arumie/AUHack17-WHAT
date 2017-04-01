@@ -64,6 +64,16 @@ class PositionHelper extends EventEmitter
 	}
 
 
+	clamp (x,y, limit) {
+		if (x> limit) x =  limit;
+		if (x<-limit) x = -limit;
+		if (y> limit) y =  limit;
+		if (y<-limit) y = -limit;
+		return [x,y];
+		
+	}
+
+
 	/*updateCameraValues () {
 		this.cam_position.setFromMatrixPosition(this.camera.object3D.matrixWorld);
 		this.cam_rotation.setFromQuaternion(this.camera.object3D.quaternion);
