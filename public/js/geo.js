@@ -9,7 +9,7 @@ class GeoService {
 
 	startLocator () {
 		if (navigator.geolocation)
-			navigator.geolocation.watchPosition(updatePosition);
+			navigator.geolocation.watchPosition(this.updatePosition);
 		else
 			console.error("GEOSERIVCE: Geolocation not supported");
 	}
