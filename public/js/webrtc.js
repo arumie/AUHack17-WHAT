@@ -30,7 +30,7 @@ class VoiceChat extends EventEmitter {
 
 		this.webrtc = new SimpleWebRTC({
 			autoRequestMedia: true,
-			enableDataChannels: false,
+			enableDataChannels: true,
 			media: {
 				audio: true,
 				video: false
@@ -64,6 +64,8 @@ class VoiceChat extends EventEmitter {
 					}
 				});
 			}
+
+			this.id = self.webrtc.connection.connection.id;
 		});
 
 		this.webrtc.connection.on('message', function (message) {
@@ -89,6 +91,9 @@ class VoiceChat extends EventEmitter {
 			return;
 		}
 
+		var s = JSON.stringify(data);
+		console.log("SENDING: ", s);
+
 		this.webrtc.sendToAll(datatype, data);
 	}
 
@@ -104,5 +109,9 @@ class VoiceChat extends EventEmitter {
 
 	getStreams() {
 		return Object.values(this.peerStreams);
+	}
+
+	getId(){
+		return this.id;
 	}
 }

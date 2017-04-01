@@ -43,7 +43,7 @@ class Main {
 		});
 
 		this.voiceChat.on("data", function(data){
-			console.log("message", data);
+			console.log("Data from " + data.from + ": ", data.payload);
 		});
 	}
 
@@ -51,7 +51,7 @@ class Main {
 		const self = this;
 
 		this.geolocation.on("update", function(data){
-			console.log("GEO: ", data);
+			self.voiceChat.broadcastData("data", data)
 		});
 	}
 

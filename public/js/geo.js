@@ -20,7 +20,10 @@ class GeoService extends EventEmitter {
 		this.lat = parseFloat(position.coords.latitude);
 		this.long = parseFloat(position.coords.longitude);
 
-		this.emit("update", position);
+		this.emit("update", {
+			lat: this.lat, 
+			long: this.long
+		});
 	}
 
 	getPostion(){
