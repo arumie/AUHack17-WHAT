@@ -1,5 +1,8 @@
-class soundConverter {
+class SoundConverter {
   constructor() {   
+      const self = this;
+      this.listener = {};
+      this.init();
   }
    
    init(){
@@ -15,8 +18,10 @@ class soundConverter {
 
        var sound = {};
        sound.source = ctx.createBufferSource();
+       sound.source.loop = true;
        sound.volume = ctx.createGain();
        sound.source.connect(sound.volume);
+
 
        sound.panner = ctx.createPanner();
        sound.volume.connect(sound.panner);
@@ -31,26 +36,47 @@ class soundConverter {
        sound.panner.coneOuterAngle = 0;
        sound.panner.coneOuterGain = 0;
 
-       if(panner.orientationX) {
+       if(sound.panner.orientationX) {
              sound.panner.orientationX.value = 1;
              sound.panner.orientationY.value = 0;
              sound.panner.orientationZ.value = 0;
         } else {
              sound.panner.setOrientation(1,0,0);
         }
+        
 
-       var listener = audioCtx.listener;
+       this.listener = ctx.listener;
 
-        if(listener.forwardX) {
-           listener.forwardX.value = 0;
-           listener.forwardY.value = 0;
-           listener.forwardZ.value = -1;
-           listener.upX.value = 0;
-           listener.upY.value = 1;
-           listener.upZ.value = 0;
+        if(this.listener.forwardX) {
+           this.listener.forwardX.value = 0;
+           this.listener.forwardY.value = 0;
+           this.listener.forwardZ.value = -1;
+           this.listener.upX.value = 0;
+           this.listener.upY.value = 1;
+           this.listener.upZ.value = 0;
         } else {
-            listener.setOrientation(0,0,-1,0,1,0);
+            this.listener.setOrientation(0,0,-1,0,1,0);
         }
+
+         this.setListenerPosition(-50,100,10,this.listener);
+
+        var request = new XMLHttpRequest();
+        request.open("GET", "../assets/ringetone.mp3", true);
+        request.responseType = "arraybuffer";
+        request.onload = function(e) {
+
+        // Create a buffer from the response ArrayBuffer.
+        ctx.decodeAudioData(this.response, function onSuccess(buffer) {
+            sound.buffer = buffer;
+
+            // Make the sound source use the buffer and start playing it.
+            sound.source.buffer = sound.buffer;
+            sound.source.start(ctx.currentTime);
+        }, function onFailure() {
+            alert("Decoding the audio buffer failed");
+        });
+        };
+        request.send();
    }
 
    setPannerOrientation(x,y,z,p){
@@ -74,23 +100,23 @@ class soundConverter {
        }       
    }
 
-   setListenerPosition(x,y,z,l){
-       if(l.positionX){
-           l.positionX.value = x;
-           l.positionY.value = y;
-           l.positionZ.value = z;
+   setListenerPosition(x,y,z){
+       if(this.listener.positionX){
+           this.listener.positionX.value = x;
+           this.listener.positionY.value = y;
+           this.listener.positionZ.value = z;
        } else {
-           l.setPosition(x,z,y);
+           this.listener.setPosition(x,z,y);
        }       
    }
 
    setListenerOrientation(x,y,z,l){
-       if(l.orientationX) {
-            l.orientationX.value = x;
-            l.orientationY.value = y;
-            l.orientationZ.value = z;
+       if(this.listener.orientationX) {
+            this.listener.orientationX.value = x;
+            this.listener.orientationY.value = y;
+            this.listener.orientationZ.value = z;
         } else {
-            l.setOrientation(x,y,z);
+            this.listener.setOrientation(x,y,z);
         }
    }
    

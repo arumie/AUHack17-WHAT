@@ -2,12 +2,16 @@ class Main {
 	constructor() {
 		const self = this;
 		this.doStuffElem = document.getElementById("do-stuff");
-		this.voiceChat = new VoiceChat();
-		this.geolocation = new GeoService();
+		this.soundConverter = new SoundConverter();
+		setInterval(function() {
+		  self.soundConverter.setListenerPosition(self.getRandomInt(-100,100),self.getRandomInt(-100,100), self.getRandomInt(-100,100));
+      }, 2000);
+		// this.voiceChat = new VoiceChat();
+		// this.geolocation = new GeoService();
 		this.doStuffArr = ["Stacking crates...", "Feeding the pet rock...", "Brewing coffee...", "Giving the browser a motivational speech...", "Having a blast...", "Deleting random stuff...", "Eating chips...", "Eating shit...", "WHAT...!? WHERE...!?", "Looking for a girlfriend..."];
-		this.sounds = new Sounds();
+		// this.sounds = new Sounds();
 
-		this.sounds.ringtone();
+		// this.sounds.ringtone();
 		setTimeout(this.removeInitializationScreen, 4000);
 		this.doStuffElem.innerHTML = 'Welcome!'
 		setInterval(function(){
