@@ -47,6 +47,11 @@ class Main {
 			//self.positioner.addObject(peer.id);
 		});
 
+		this.voiceChat.on("disconnectedPeer", function(peer){
+			self.sounds.error();
+		});
+
+
 		this.voiceChat.on("data", function(data){
 			self.updatePeerPosition(data.from, data.payload);
 		});

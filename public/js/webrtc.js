@@ -52,7 +52,7 @@ class VoiceChat extends EventEmitter {
 				peer.pc.on('iceConnectionStateChange', function (event) {
 					var state = peer.pc.iceConnectionState;
 
-					if (state == 'completed') {
+					if (state == 'connected') {
 						if(!self.peerStreams[peer.stream.id]) {
 							console.log("WEBRTC: new peer " + peer.id);
 							self.emit("newPeer", peer);
@@ -60,6 +60,9 @@ class VoiceChat extends EventEmitter {
 
 						self.audio.srcObject = peer.stream;
 						self.peerStreams[peer.stream.id] = peer.stream;
+					} else if (state == 'disconnected') {
+						console.log("WEBRTC: peer " + peer.id + " disconnected");
+						self.emit("disconnectedPeer", peer);
 					}
 				});
 			}
@@ -81,6 +84,10 @@ class VoiceChat extends EventEmitter {
 		this.webrtc.on('connectivityError', function (peer) {
 			//Remote p2p/ice failure
 			console.error("WEBRTC: remote p2p/ice failure");
+		});
+
+		this.webrtc.on('volumeChange', function (peer, volume) {
+    		console.log("vol! " + volume);
 		});
 	}
 
