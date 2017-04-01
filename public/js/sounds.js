@@ -1,5 +1,4 @@
-class Audio {
-
+class Sounds {
   error(){
     var audio = new Audio('../assets/error.mp3');
     audio.play();

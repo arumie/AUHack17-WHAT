@@ -2,7 +2,9 @@ class Main {
 	constructor() {
 		this.voiceChat = new VoiceChat();
 		this.geolocation = new GeoService();
+		this.sounds = new Sounds();
 
+		this.sounds.ringtone();
 		setTimeout(this.removeInitializationScreen, 4000);
 	}
 
