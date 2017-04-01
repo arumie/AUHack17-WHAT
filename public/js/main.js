@@ -6,7 +6,8 @@ class Main {
 		this.spatialSoundManager = new SpatialSoundManager();
 
 		this.sounds = new Sounds();
-		//this.voiceChat = new VoiceChat();
+		this.voiceChat = new VoiceChat();
+
 		this.geolocation = new GeoService()
 
 		this.doStuffArr = doStuffArray;
@@ -22,7 +23,35 @@ class Main {
 		navigator.getUserMedia({video: false, audio: true}, function(localMediaStream) {
 			console.log("Sound!", localMediaStream);
 
-			self.spatialSoundManager.addSoundSource(localMediaStream.id, localMediaStream);
+			self.spatialSoundManager.addSoundSource("id1", localMediaStream);
+			self.spatialSoundManager.setSourcePosition("id1", 300, 0, 0);
+
+			self.spatialSoundManager.addSoundSource("id2", localMediaStream);
+			self.spatialSoundManager.setSourcePosition("id2", -300, 0, 0);
+		});
+
+		this.bindWebrtcEvent();
+		this.bindGeoEvents();
+	}
+
+	bindWebrtcEvent(){
+		const self = this;
+
+		this.voiceChat.on("newPeer", function(data){
+			console.log("newPeer", data);
+			self.sounds.error();
+		});
+
+		this.voiceChat.on("data", function(data){
+			console.log("message", data);
+		});
+	}
+
+	bindGeoEvents(){
+		const self = this;
+
+		this.geolocation.on("update", function(data){
+			console.log("GEO: ", data);
 		});
 	}
 

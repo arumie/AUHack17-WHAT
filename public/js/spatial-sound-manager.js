@@ -46,7 +46,7 @@ class SpatialSoundManager {
 
 		this.soundSources[id] = sound;
 
-		this.setSourcePosition(id, 200, 0, 400);
+		this.setSourcePosition(id, 0, 0, 0);
 	}
 
 	setSourceOrientation(id, x,y,z){

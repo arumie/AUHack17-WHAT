@@ -1,6 +1,8 @@
-class GeoService {
+class GeoService extends EventEmitter {
 
 	constructor(){
+		super();
+
 		this.lat =  0;
 		this.long = 0;
 
@@ -9,7 +11,7 @@ class GeoService {
 
 	startLocator () {
 		if (navigator.geolocation)
-			navigator.geolocation.watchPosition(this.updatePosition);
+			navigator.geolocation.watchPosition(this.updatePosition.bind(this));
 		else
 			console.error("GEOSERIVCE: Geolocation not supported");
 	}
@@ -17,6 +19,8 @@ class GeoService {
 	updatePosition (position) {
 		this.lat = parseFloat(position.coords.latitude);
 		this.long = parseFloat(position.coords.longitude);
+
+		this.emit("update", position);
 	}
 
 	getPostion(){
