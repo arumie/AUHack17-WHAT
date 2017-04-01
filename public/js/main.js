@@ -8,9 +8,10 @@ class Main {
 		this.sounds = new Sounds();
 		this.voiceChat = new VoiceChat();
 
-		this.geolocation = new GeoService()
+		this.geolocation = new GeoService();
 
 		this.doStuffArr = doStuffArray;
+
 		this.doStuffElem.innerHTML = 'Welcome!'
 
 		setTimeout(this.removeInitializationScreen, 4000);
@@ -20,30 +21,28 @@ class Main {
 			self.doStuffElem.innerHTML = self.doStuffArr[randomNr];
 		}, 1000);
 
-		navigator.getUserMedia({video: false, audio: true}, function(localMediaStream) {
-			console.log("Sound!", localMediaStream);
-
-			self.spatialSoundManager.addSoundSource("id1", localMediaStream);
-			self.spatialSoundManager.setSourcePosition("id1", 300, 0, 0);
-
-			self.spatialSoundManager.addSoundSource("id2", localMediaStream);
-			self.spatialSoundManager.setSourcePosition("id2", -300, 0, 0);
-		});
-
 		this.bindWebrtcEvent();
 		this.bindGeoEvents();
+	}
+
+	updateMyPosition(data){
+		//Update 3d here
+	}
+
+	updatePeerPosition(id, data){
+		//Update 3d here
 	}
 
 	bindWebrtcEvent(){
 		const self = this;
 
-		this.voiceChat.on("newPeer", function(data){
-			console.log("newPeer", data);
+		this.voiceChat.on("newPeer", function(peer){
 			self.sounds.error();
+			self.spatialSoundManager.addSoundSource(peer.id, peer.stream);
 		});
 
 		this.voiceChat.on("data", function(data){
-			console.log("Data from " + data.from + ": ", data.payload);
+			self.updatePeerPosition(data.from, data.payload);
 		});
 	}
 
@@ -52,6 +51,7 @@ class Main {
 
 		this.geolocation.on("update", function(data){
 			self.voiceChat.broadcastData("data", data)
+			self.updateMyPosition(data);
 		});
 	}
 
