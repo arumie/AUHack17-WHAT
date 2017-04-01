@@ -8,6 +8,7 @@ class Main {
 
 	removeInitializationScreen() {
 		document.getElementById("loading-screen").style = "display: none";
+		document.getElementById("main-scene").style = "display: block";
 	}
 }
 
