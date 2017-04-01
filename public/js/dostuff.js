@@ -29,5 +29,8 @@ const doStuffArray = [
 	"Becoming self aware...",
 	"Pushing the boundaries of wobba lubba dubdub...",
 	"Starting a religion...",
-	"Streaking on the moon..."
+	"Streaking on the moon...",
+	"Pulling peoples fingers...",
+	"Making silly faces when people look away...",
+	"Hoarding free swag..."
 ];
