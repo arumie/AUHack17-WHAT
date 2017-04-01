@@ -3,14 +3,17 @@ const dataType = {
 	other: 1 	
 }
 
-class VoiceChat {
+class VoiceChat extends EventEmitter {
 	constructor(){
+		super();
+
 		this.room = "auhack-what";
 		this.peerStreams = {};
 
 		this.createAudioElement();
 		this.initWebRTC();
 		this.joinRoom(this.room);
+
 	}
 
 	createAudioElement(){
@@ -45,8 +48,6 @@ class VoiceChat {
 
 		this.webrtc.on('createdPeer', function (peer) {
 			//Called when a peer is created
-			console.log(peer);
-
 			if (peer && peer.pc) {
 				peer.pc.on('iceConnectionStateChange', function (event) {
 					var state = peer.pc.iceConnectionState;
@@ -55,6 +56,9 @@ class VoiceChat {
 						console.log("WEBRTC: " + event);
 					case 'completed':
 						console.log("WEBRTC: " + event);
+						if(!self.peerStreams[peer.stream.id])
+							self.emit("newPeer", peer);
+
 						self.audio.srcObject = peer.stream;
 						self.peerStreams[peer.stream.id] = peer.stream;
 					}
@@ -64,7 +68,8 @@ class VoiceChat {
 
 		this.webrtc.connection.on('message', function (message) {
 			//Message received
-			console.log("WEBRTC: Message", message);
+			if(message.type == "data")
+				self.emit("data", message);
 		});
 
 		this.webrtc.on('iceFailed', function (peer) {

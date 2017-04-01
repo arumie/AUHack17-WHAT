@@ -7,6 +7,14 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script type="text/javascript" src="vendor/js/aframe.min.js"></script>
+
+		<style>
+			#text {
+				padding: 0px;
+				margin: 0px;
+				border: 0px;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -19,7 +27,7 @@
 			<a-sky color="#ECECEC"></a-sky>
 
 			<a-entity position="0 2 0">
-			<a-camera></a-camera>
+			<a-camera id="camera"></a-camera>
 			</a-entity>
 		</a-scene>
 	</body>
@@ -27,8 +35,27 @@
 
 
 <script>
-	var init_x;
-	var init_z;
+	var init_x, init_z;
+	var pos_x, pos_y, pos_z;
+
+	var cameraEl = document.querySelector('#camera');
+	var campos = new THREE.Vector3();
+	var camrot = new THREE.Euler();
+	updateCamValues();
+
+	function degreesToNorth (x1, y1, x2, y2) {
+		return Math.atan( (y2-y1)/(x2-x1) ) * (180/Math.PI);
+	}
+
+	function log () {
+		document.getElementById("text").innerHTML = 
+			"ball position: "+pos_x+" "+pos_y+" "+pos_z + "<br>" +
+			"cam position: " +campos.x + " " +campos.y + " " +campos.z + "<br>" +
+			"vector-to-ball: " + parseInt(degreesToNorth(campos.z, campos.x, pos_z, pos_x)) + "<br>" +
+			"rotation-to-ball: " + parseInt(degreesToNorth(campos.z, campos.x, pos_z, pos_x) - (camrot.z*(182/Math.PI))) + "<br>" +
+			"rotation-cam: " + parseInt(camrot.x*(182/Math.PI)) + " " + parseInt(camrot.y*(182/Math.PI)) + " " + parseInt(camrot.z*(182/Math.PI));
+	}
+
 
 	function startLocator () {
 		if (navigator.geolocation) {
@@ -47,15 +74,29 @@
 	function showPosition (position) {
 		var lat   = position.coords.latitude;
 		var long  = position.coords.longitude;
-		var pos_x = (lat-init_x) * (40000/360) * Math.cos(long*(Math.PI/180));
-		var pos_y = 1;
-		var pos_z = (long-init_z) * (40000/360);
+		pos_x = (lat-init_x) * (40000/360) * Math.cos(long*(Math.PI/180));
+		pos_y = 1;
+		pos_z = (long-init_z) * (40000/360);
 
 		var element = document.getElementById("blob");
 		element.setAttribute("position", pos_x +" "+ pos_y +" "+ pos_z);
-
-		document.getElementById("text").innerHTML = "pos: "+pos_x+" "+pos_y+" "+pos_z;
+		log();
 	}
+
+
+	cameraEl.addEventListener('componentchanged', function (evt) {
+		if (evt.detail.name == 'position' || evt.detail.name == 'rotation')
+			updateCamValues();
+	});
+
+	function updateCamValues () {
+		campos.setFromMatrixPosition(cameraEl.object3D.matrixWorld);
+		camrot.setFromQuaternion(cameraEl.object3D.quaternion);
+		log();
+	}
+
+
+	
 
 	startLocator();
 </script>
