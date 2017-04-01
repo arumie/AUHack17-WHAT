@@ -30,7 +30,7 @@ const doStuffArray = [
 	"Pushing the boundaries of wubba lubba dubdub...",
 	"Starting a religion...",
 	"Streaking on the moon...",
-	"Loading loadingscreens...",
+	"mkdir 'Definitely-Not-Porn'...",
 	"Pretending to load stuff...",
 	"Consulting the Oracle...",
 	"Polishing a turd...",
@@ -39,5 +39,11 @@ const doStuffArray = [
 	"Hoarding free swag...",
 	"Giving small animals massage...",
 	"Posting dank memes...",
-	"Upvoting shitposts..."
+	"Upvoting shitposts...",
+	"Rolling sausages...",
+	"Planning world domination...",
+	"Playing the fiddle...",
+	"Calling Captain Hindsight...",
+	"Looking for the fuck i give...",
+	"Here's Johnny..!"
 ];
