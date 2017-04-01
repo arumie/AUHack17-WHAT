@@ -18,6 +18,12 @@ class Main {
 			var randomNr =   self.getRandomInt(0,self.doStuffArr.length-1);
 			self.doStuffElem.innerHTML = self.doStuffArr[randomNr];
 		}, 1000);
+
+		navigator.getUserMedia({video: false, audio: true}, function(localMediaStream) {
+			console.log("Sound!", localMediaStream);
+
+			self.spatialSoundManager.addSoundSource(localMediaStream.id, localMediaStream);
+		});
 	}
 
 	removeInitializationScreen() {

@@ -25,7 +25,7 @@ class SpatialSoundManager {
 	addSoundSource(id, mediaStream){
 		var sound = {};
 
-		sound.source = this.audioContext.createBufferSource();
+		sound.source = this.audioContext.createMediaStreamSource(mediaStream);
 
 		sound.volume = this.audioContext.createGain();
 		sound.source.connect(sound.volume);
@@ -33,18 +33,20 @@ class SpatialSoundManager {
 		sound.panner = this.audioContext.createPanner();
 		sound.volume.connect(sound.panner);
 
+		sound.panner.connect(this.audioContext.destination);
+
 		sound.panner.panningModel = 'HRTF';
 		sound.panner.distanceModel = 'inverse';
 
 		sound.panner.maxDistance = 1000;
-		sound.panner.rolloffFactor = 0.6;
+		sound.panner.rolloffFactor = 0.5;
 		sound.panner.coneInnerAngle = 360;
 		sound.panner.coneOuterAngle = 0;
 		sound.panner.coneOuterGain = 0;
 
 		this.soundSources[id] = sound;
 
-		setSourceOrientation(id, 1, 0, 0);
+		this.setSourcePosition(id, 200, 0, 400);
 	}
 
 	setSourceOrientation(id, x,y,z){
@@ -86,5 +88,9 @@ class SpatialSoundManager {
 			this.soundListener.orientationZ.value = z;
 		} else 		
 			this.soundListener.setOrientation(x,y,z);
+	}
+
+		getRandomInt(min, max) {
+  		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 }
