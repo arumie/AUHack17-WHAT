@@ -1,6 +1,7 @@
 class Main {
 	constructor() {
 		const self = this;
+
 		this.doStuffElem = document.getElementById("do-stuff");
 		this.soundConverter = new SoundConverter();
 		setInterval(function() {
