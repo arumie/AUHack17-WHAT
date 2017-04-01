@@ -33,6 +33,15 @@ class GeoService extends EventEmitter {
 		}
 	}
 
+	getXYZFromCartesianPosition(dist, lat, long){
+		var x = dist * Math.cos(lat) * Math.cos(long);
+		var y = dist * Math.cos(lat) * Math.sin(long);
+		var z = dist * Math.sin(lat);
+		var position = {pX: x, pY: y, pZ: z };
+
+		return position;
+	}
+
 	calcDistance(lat1, lon1, lat2, lon2) {
 		var R = 6371; // Radius of the earth in km
 		
