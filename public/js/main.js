@@ -5,7 +5,7 @@ class Main {
 		this.doStuffElem = document.getElementById("do-stuff");
 		this.soundConverter = new SoundConverter();
 		setInterval(function() {
-		  self.soundConverter.setListenerPosition(self.getRandomInt(-100,100),self.getRandomInt(-100,100), self.getRandomInt(-100,100));
+		  self.soundConverter.setListenerPosition(self.getRandomInt(-100,100),self.getRandomInt(-1000,1000), self.getRandomInt(-100,100));
       }, 2000);
 		// this.voiceChat = new VoiceChat();
 		// this.geolocation = new GeoService();

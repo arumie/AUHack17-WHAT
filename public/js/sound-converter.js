@@ -2,6 +2,7 @@ class SoundConverter {
   constructor() {   
       const self = this;
       this.listener = {};
+      this.sound = {};
       this.init();
   }
    
@@ -16,32 +17,31 @@ class SoundConverter {
 
        mainVolume.connect(ctx.destination);
 
-       var sound = {};
-       sound.source = ctx.createBufferSource();
-       sound.source.loop = true;
-       sound.volume = ctx.createGain();
-       sound.source.connect(sound.volume);
+       this.sound.source = ctx.createBufferSource();
+       this.sound.source.loop = true;
+       this.sound.volume = ctx.createGain();
+       this.sound.source.connect(this.sound.volume);
 
 
-       sound.panner = ctx.createPanner();
-       sound.volume.connect(sound.panner);
-       sound.panner.connect(mainVolume);
+       this.sound.panner = ctx.createPanner();
+       this.sound.volume.connect(this.sound.panner);
+       this.sound.panner.connect(mainVolume);
 
-       sound.panner.panningModel = 'HRTF';
-       sound.panner.distanceModel = 'inverse';
-       sound.panner.refDistance = 1;
-       sound.panner.maxDistance = 10000;
-       sound.panner.rolloffFactor = 1;
-       sound.panner.coneInnerAngle = 360;
-       sound.panner.coneOuterAngle = 0;
-       sound.panner.coneOuterGain = 0;
+       this.sound.panner.panningModel = 'HRTF';
+       this.sound.panner.distanceModel = 'inverse';
+       this.sound.panner.refDistance = 1;
+       this.sound.panner.maxDistance = 1000;
+       this.sound.panner.rolloffFactor = 0.6;
+       this.sound.panner.coneInnerAngle = 360;
+       this.sound.panner.coneOuterAngle = 0;
+       this.sound.panner.coneOuterGain = 0;
 
-       if(sound.panner.orientationX) {
-             sound.panner.orientationX.value = 1;
-             sound.panner.orientationY.value = 0;
-             sound.panner.orientationZ.value = 0;
+       if(this.sound.panner.orientationX) {
+             this.sound.panner.orientationX.value = 1;
+             this.sound.panner.orientationY.value = 0;
+             this.sound.panner.orientationZ.value = 0;
         } else {
-             sound.panner.setOrientation(1,0,0);
+             this.sound.panner.setOrientation(1,0,0);
         }
         
 
@@ -61,42 +61,38 @@ class SoundConverter {
          this.setListenerPosition(-50,100,10,this.listener);
 
         var request = new XMLHttpRequest();
-        request.open("GET", "../assets/ringetone.mp3", true);
+        request.open("GET", "../assets/error.mp3", true);
         request.responseType = "arraybuffer";
         request.onload = function(e) {
-
-        // Create a buffer from the response ArrayBuffer.
-        ctx.decodeAudioData(this.response, function onSuccess(buffer) {
-            sound.buffer = buffer;
-
-            // Make the sound source use the buffer and start playing it.
-            sound.source.buffer = sound.buffer;
-            sound.source.start(ctx.currentTime);
-        }, function onFailure() {
-            alert("Decoding the audio buffer failed");
-        });
+            ctx.decodeAudioData(this.response, function onSuccess(buffer) {
+                self.sound.buffer = buffer;
+                self.sound.source.buffer = self.sound.buffer;
+                self.sound.source.start(ctx.currentTime);
+            }, function onFailure() {
+                alert("Decoding the audio buffer failed");
+            });
         };
         request.send();
    }
 
-   setPannerOrientation(x,y,z,p){
-       if(p.orientationX) {
-            p.orientationX.value = x;
-            p.orientationY.value = y;
-            p.orientationZ.value = z;
+   setPannerOrientation(x,y,z){
+       if(this.sound.panner.orientationX) {
+            this.sound.panner.orientationX.value = x;
+            this.sound.panner.orientationY.value = y;
+            this.sound.panner.orientationZ.value = z;
         } else {
-            p.setOrientation(x,y,z);
+            this.sound.panner.setOrientation(x,y,z);
         }
    }
    
 
    setPannerPosition(x, y, z, p){
-       if(p.positionX){
-           p.positionX.value = x;
-           p.positionY.value = y;
-           p.positionZ.value = z;
+       if(this.sound.panner.positionX){
+           this.sound.panner.positionX.value = x;
+           this.sound.panner.positionY.value = y;
+           this.sound.panner.positionZ.value = z;
        } else {
-           p.setPosition(x,y,z);
+           this.sound.panner.setPosition(x,y,z);
        }       
    }
 
