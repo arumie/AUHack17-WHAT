@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="css/cube.css">
 
 	<script type="text/javascript" src="vendor/js/simplewebrtc.min.js"></script>
 	<script type="text/javascript" src="vendor/js/aframe.js"></script>
@@ -14,8 +15,22 @@
 	<script type="text/javascript" src="js/webrtc.js"></script>
 	<script type="text/javascript" src="js/geo.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+
+		<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
 </head>
 <body>
+
+	<div id="loading-screen">
+	<div class="sk-folding-cube">
+		<div class="sk-cube1 sk-cube"></div>
+		<div class="sk-cube2 sk-cube"></div>
+		<div class="sk-cube4 sk-cube"></div>
+		<div class="sk-cube3 sk-cube"></div>
+	</div>
+		<p>Initializing</p>
+	</div>
+
 	<a-scene>
 		<!--<a-assets>
     		<a-asset-item id="plumbob" src="/assets/plumbob.gltf"></a-asset-item>
