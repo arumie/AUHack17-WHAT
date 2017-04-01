@@ -32,5 +32,8 @@ const doStuffArray = [
 	"Streaking on the moon...",
 	"Pulling peoples fingers...",
 	"Making silly faces when people look away...",
-	"Hoarding free swag..."
+	"Hoarding free swag...",
+	"Giving small animals massage...",
+	"Posting dank memes...",
+	"Upvoting shitposts..."
 ];
