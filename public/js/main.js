@@ -5,6 +5,9 @@ class Main {
 		this.voiceChat = new VoiceChat();
 		this.geolocation = new GeoService();
 		this.doStuffArr = ["Stacking crates...", "Feeding the pet rock...", "Brewing coffee...", "Giving the browser a motivational speech...", "Having a blast...", "Deleting random stuff...", "Eating chips...", "Eating shit...", "WHAT...!? WHERE...!?", "Looking for a girlfriend..."];
+		this.sounds = new Sounds();
+
+		this.sounds.ringtone();
 		setTimeout(this.removeInitializationScreen, 4000);
 		this.doStuffElem.innerHTML = 'Welcome!'
 		setInterval(function(){
