@@ -27,7 +27,17 @@ const doStuffArray = [
 	"Totally not looking at your boobs...",
 	"Ratting you out to the NSA...",
 	"Becoming self aware...",
-	"Pushing the boundaries of wobba lubba dubdub...",
+	"Pushing the boundaries of wubba lubba dubdub...",
 	"Starting a religion...",
-	"Streaking on the moon..."
+	"Streaking on the moon...",
+	"Loading loadingscreens...",
+	"Pretending to load stuff...",
+	"Consulting the Oracle...",
+	"Polishing a turd..."
+	"Pulling peoples fingers...",
+	"Making silly faces when people look away...",
+	"Hoarding free swag...",
+	"Giving small animals massage...",
+	"Posting dank memes...",
+	"Upvoting shitposts..."
 ];
