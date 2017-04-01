@@ -45,5 +45,9 @@ const doStuffArray = [
 	"Playing the fiddle...",
 	"Calling Captain Hindsight...",
 	"Looking for the fuck i give...",
-	"Here's Johnny..!"
+	"Here's Johnny..!",
+	"Send nudes...",
+	"Feeding back farts...",
+	"So, who is this \"4CHAN\"??? ",
+	"Containing the wrath of the gods..."
 ];
