@@ -15,6 +15,9 @@ class PositionHelper extends EventEmitter
 		//Position in meters from origin.
 		this.pos_x  = 0;
 		this.pos_z  = 0;
+
+		this.lat;
+		this.long;
 		
 		//this.updateCameraValues();
 		
@@ -27,34 +30,47 @@ class PositionHelper extends EventEmitter
 	}
 
 
+	getPosition () {
+		return [this.lat, this.long];
+	}
+
+
 	//InitPosition, used by geolocation. Don't use directly.
 	initPosition (position) {
 		this.init_x = parseFloat(position.coords.latitude);
 		this.init_z = parseFloat(position.coords.longitude);
+		this.lat  = this.init_x;
+		this.long = this.init_z;
 		this.camera.setAttribute("position", "0 2 0");
 		console.log("Home is: ["+this.init_x + "," + this.init_z+"]");
+
+		this.emit("update", {
+			lat: this.lat, 
+			long: this.long
+		});
 	}
 
 
 	// ShowPosition, used by geolocation to update by event. Don't use directly.
 	updatePosition (position) {
-		var lat  = position.coords.latitude;
-		var long = position.coords.longitude;
-		this.pos_x = (long-this.init_z) * (40000000/360);
-		this.pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
+		this.lat   = position.coords.latitude;
+		this.long  = position.coords.longitude;
+		this.pos_x = (this.long-this.init_z) * (40000000/360);
+		this.pos_z = (this.lat-this.init_x) * (40000000/360) * Math.cos(this.long*this.deg_rad);
 
 		this.camera.setAttribute("position", this.pos_x+" 2 "+this.pos_z);
 
-		console.log("lat and long: ", lat, long, "x and z: ", this.pos_x, this.pos_z);
+		console.log("lat and long: ", this.lat, this.long, "x and z: ", this.pos_x, this.pos_z);
 
 		this.emit("update", {
-			lat: lat, 
-			long: long
+			lat: this.lat, 
+			long: this.long
 		});
 	}
 
 	removeObject(id){
-		document.getElementById(id).parentNode.removeChild();
+		var sphere = document.getElementById(id);
+		sphere.parentNode.removeChild(sphere);
 	}
 
 	generatePosition (lat, long) {
