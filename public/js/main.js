@@ -3,18 +3,16 @@ class Main {
 		const self = this;
 
 		this.doStuffElem = document.getElementById("do-stuff");
-		this.soundConverter = new SoundConverter();
-		setInterval(function() {
-		  self.soundConverter.setListenerPosition(self.getRandomInt(-100,100),self.getRandomInt(-1000,1000), self.getRandomInt(-100,100));
-      }, 2000);
-		// this.voiceChat = new VoiceChat();
-		// this.geolocation = new GeoService();
-		this.doStuffArr = ["Stacking crates...", "Feeding the pet rock...", "Brewing coffee...", "Giving the browser a motivational speech...", "Having a blast...", "Deleting random stuff...", "Eating chips...", "Eating shit...", "WHAT...!? WHERE...!?", "Looking for a girlfriend..."];
-		// this.sounds = new Sounds();
+		this.spatialSoundManager = new SpatialSoundManager();
 
-		// this.sounds.ringtone();
-		setTimeout(this.removeInitializationScreen, 4000);
+		this.sounds = new Sounds();
+		//this.voiceChat = new VoiceChat();
+		this.geolocation = new GeoService()
+
+		this.doStuffArr = doStuffArray;
 		this.doStuffElem.innerHTML = 'Welcome!'
+
+		setTimeout(this.removeInitializationScreen, 4000);
 		setInterval(function(){
 			var elem = document.getElementById("do-stuff");
 			var randomNr =   self.getRandomInt(0,self.doStuffArr.length-1);
