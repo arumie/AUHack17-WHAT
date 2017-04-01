@@ -29,11 +29,9 @@ class PositionHelper extends EventEmitter
 			alert("Geolocation not supported");
 	}
 
-
 	getPosition () {
 		return [this.lat, this.long];
 	}
-
 
 	//InitPosition, used by geolocation. Don't use directly.
 	initPosition (position) {
@@ -41,12 +39,11 @@ class PositionHelper extends EventEmitter
 		this.init_z = parseFloat(position.coords.longitude);
 		this.lat  = this.init_x;
 		this.long = this.init_z;
-		this.camera.setAttribute("position", "0 2 0");
+		this.camera.setAttribute("position", this.generatePosition(this.init_x, this.init_z));
 		console.log("Home is: ["+this.init_x + "," + this.init_z+"]");
-
 		this.emit("update", {
-			lat: this.lat, 
-			long: this.long
+			lat: this.init_x, 
+			long: this.init_z
 		});
 	}
 
@@ -57,11 +54,8 @@ class PositionHelper extends EventEmitter
 		this.long  = position.coords.longitude;
 		this.pos_x = (this.long-this.init_z) * (40000000/360);
 		this.pos_z = (this.lat-this.init_x) * (40000000/360) * Math.cos(this.long*this.deg_rad);
-
 		this.camera.setAttribute("position", this.pos_x+" 2 "+this.pos_z);
-
 		console.log("lat and long: ", this.lat, this.long, "x and z: ", this.pos_x, this.pos_z);
-
 		this.emit("update", {
 			lat: this.lat, 
 			long: this.long
@@ -69,8 +63,10 @@ class PositionHelper extends EventEmitter
 	}
 
 	removeObject(id){
-		var sphere = document.getElementById(id);
-		sphere.parentNode.removeChild(sphere);
+		if(document.getElementById(id)){
+			var sphere = document.getElementById(id);
+			sphere.parentNode.removeChild(sphere);
+		}		
 	}
 
 	generatePosition (lat, long) {
@@ -79,26 +75,21 @@ class PositionHelper extends EventEmitter
 		return pos_x + " 2 " + pos_z;
 	}
 
-
 	clamp (x,y, limit) {
 		if (x> limit) x =  limit;
 		if (x<-limit) x = -limit;
 		if (y> limit) y =  limit;
 		if (y<-limit) y = -limit;
-		return [x,y];
-		
+		return [x,y];		
 	}
-
 
 	/*updateCameraValues () {
 		this.cam_position.setFromMatrixPosition(this.camera.object3D.matrixWorld);
 		this.cam_rotation.setFromQuaternion(this.camera.object3D.quaternion);
 	}*/
 
-
 	relativeRotation (camera_id, obj_x, obj_z) {
 		var rot;
-
 		if (x2<x1 && y2<y1)
 			rot = Math.atan( (x2-x1)/(y2-y1) ) * this.rad_deg;
 		else if (x2<x1 && y2>=y1)
@@ -111,26 +102,22 @@ class PositionHelper extends EventEmitter
 		return rot - (cam_rotation.z*this.rad_deg);
 	}
 
-
 	addObject (id) {
 		var scene = document.getElementById("main-scene");
-
 		var element = document.createElement("a-sphere");
 		element.setAttribute("position", "0 0 0");
 		element.setAttribute("radius", "1.25");
 		element.setAttribute("color", "#FF88AA");
 		element.setAttribute("id", id); //this sets the id of the object.
-
 		scene.appendChild(element);
 		console.log("SPHERE: ", element);
 	}
-
 
 	updateObject (id, lat, long) {
 		console.log("FUCK", id);
 		var per = document.getElementById(id);
 		if (per == null) {
-			addObject(id);
+			this.addObject(id);
 		}
 		else {
 			per.setAttribute("position", this.generatePosition(lat, long));	

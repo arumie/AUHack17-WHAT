@@ -29,6 +29,7 @@ class Main {
 
 	updateMyPosition(data){
 		//Update 3d here
+		this.positioner.updateObject("camera", data.lat, data.long);
 	}
 
 	updatePeerPosition(id, data){
@@ -44,7 +45,6 @@ class Main {
 		this.voiceChat.on("newPeer", function(peer){
 			self.sounds.error();
 			self.spatialSoundManager.addSoundSource(peer.id, peer.stream);
-			self.positioner.addObject(peer.id);
 		});
 
 		this.voiceChat.on("disconnectedPeer", function(peer){
