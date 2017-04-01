@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="text/javascript" src="vendor/js/aframe.min.js"></script>
+		<script type="text/javascript" src="js/geometry.js"></script>
+		<script type="text/javascript" src="js/webrtc.js">
+	</head>
+
+	<body>
+			<p id="stuff"></p>
+		<a-scene>
+			<a-box position="0 0 0" rotation="0 0 0" width="0.1" height="20" depth="0.1"  color="#000000"></a-box>
+
+			<a-sphere id="s_1" position="0 0 0" radius="0.5"></a-sphere>
+
+
+			<a-plane material="src: dirt.jpg" height="100" width="100" rotation="-90 0 0"></a-plane>
+			<a-sky color="#331111"></a-sky>
+
+			<a-entity position="5 5 5">
+			<a-camera id="camera"></a-camera>
+		</a-scene>
+	</body>
+</html>
+
+
+
+<script>
+	var geo = new PositionHelper("camera");
+</script>
