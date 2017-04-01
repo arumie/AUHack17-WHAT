@@ -43,5 +43,6 @@ const doStuffArray = [
 	"Send nudes...",
 	"Feeding back farts...",
 	"So, who is this \"4CHAN\"??? ",
-	"Containing the wrath of the gods..."
+	"Containing the wrath of the gods...",
+	"Installing Gentoo..."
 ];

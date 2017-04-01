@@ -45,6 +45,12 @@ class PositionHelper
 		document.getElementById("stuff").innerHTML = this.pos_x + this.pos_z;
 	}
 
+	generatePosition (lat, long) {
+		this.pos_x = (long-this.init_z) * (40000000/360);
+		this.pos_z = (lat-this.init_x) * (40000000/360) * Math.cos(long*this.deg_rad);
+		return this.pos_x + " 5 " + this.pos_z;
+	}
+
 
 	updateCameraValues () {
 		this.cam_position.setFromMatrixPosition(camera.object3D.matrixWorld);
@@ -65,5 +71,15 @@ class PositionHelper
 			rot = Math.atan( (x2-x1)/(y2-y1) ) * this.rad_deg;
 
 		return rot - (cam_rotation.z*this.rad_deg);
+	}
+
+
+	addObject (lat, long) {
+		var scene = document.getElementById("main-scene");
+
+		var element = document.createElement("a-sphere");
+		element.setAttribute("position", this.generatePosition(lat,long));
+
+		scene.appendChild(element);
 	}
 }

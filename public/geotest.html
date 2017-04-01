@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="vendor/js/aframe.min.js"></script>
 
 		<style>
-			#text {
+			p {
 				padding: 0px;
 				margin: 0px;
 				border: 0px;
@@ -18,10 +18,14 @@
 	</head>
 
 	<body>
+		<p id="quadrant"></p> <br>
 		<p id="text">pos: </p>
 
 		<a-scene>
 			<a-sphere id="blob" position="0 0 0" radius="1" color="#EF2D5E"></a-sphere>
+
+			<a-box position="0 1 0" rotation="0 0 0" width="0.1" height="0.1" depth="10"  color="#FF0000"></a-box>
+			<a-box position="0 1 0" rotation="0 0 0" width="10" height="0.1" depth="0.1"  color="#00FF00"></a-box>
 
 			<a-plane material="src: dirt.jpg" height="100" width="100" rotation="-90 0 0"></a-plane>
 			<a-sky color="#ECECEC"></a-sky>
@@ -35,6 +39,8 @@
 
 
 <script>
+	var rad_deg = 57.295779513;
+	var deg_rad = 0.01745329252;
 	var init_x, init_z;
 	var pos_x, pos_y, pos_z;
 
@@ -44,16 +50,23 @@
 	updateCamValues();
 
 	function degreesToNorth (x1, y1, x2, y2) {
-		return Math.atan( (y2-y1)/(x2-x1) ) * (180/Math.PI);
+		if (x2<x1 && y2<y1)
+			return Math.atan( (x2-x1)/(y2-y1) ) * rad_deg;
+		else if (x2<x1 && y2>=y1)
+			return 90 - Math.atan( (y2-y1)/(x2-x1) ) * rad_deg;
+		else if (x2>=x1 && y2>=y1)
+			return -180 + Math.atan( (x2-x1)/(y2-y1) ) * rad_deg;
+		else
+			return Math.atan( (x2-x1)/(y2-y1) ) * rad_deg;
 	}
 
 	function log () {
 		document.getElementById("text").innerHTML = 
 			"ball position: "+pos_x+" "+pos_y+" "+pos_z + "<br>" +
 			"cam position: " +campos.x + " " +campos.y + " " +campos.z + "<br>" +
-			"vector-to-ball: " + parseInt(degreesToNorth(campos.z, campos.x, pos_z, pos_x)) + "<br>" +
-			"rotation-to-ball: " + parseInt(degreesToNorth(campos.z, campos.x, pos_z, pos_x) - (camrot.z*(182/Math.PI))) + "<br>" +
-			"rotation-cam: " + parseInt(camrot.x*(182/Math.PI)) + " " + parseInt(camrot.y*(182/Math.PI)) + " " + parseInt(camrot.z*(182/Math.PI));
+			"vector-to-ball: " + parseInt(degreesToNorth(campos.x, campos.z, pos_x, pos_z)) + "<br>" +
+			"rotation-to-ball: " + parseInt(degreesToNorth(campos.x, campos.z, pos_x, pos_z) - (camrot.z*rad_deg)) + "<br>" +
+			"rotation-cam: " + parseInt(camrot.x*rad_deg) + " " + parseInt(camrot.y*rad_deg) + " " + parseInt(camrot.z*rad_deg);
 	}
 
 
@@ -74,9 +87,9 @@
 	function showPosition (position) {
 		var lat   = position.coords.latitude;
 		var long  = position.coords.longitude;
-		pos_x = (lat-init_x) * (40000/360) * Math.cos(long*(Math.PI/180));
+		pos_x = (((long-init_z)*40000)/360);
 		pos_y = 1;
-		pos_z = (long-init_z) * (40000/360);
+		pos_z = (lat-init_x) * (40000/360) * Math.cos(long*deg_rad);
 
 		var element = document.getElementById("blob");
 		element.setAttribute("position", pos_x +" "+ pos_y +" "+ pos_z);
