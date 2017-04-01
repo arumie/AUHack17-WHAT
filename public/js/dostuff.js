@@ -40,5 +40,6 @@ const doStuffArray = [
 	"Giving small animals massage...",
 	"Posting dank memes...",
 	"Upvoting shitposts...",
-	"Send nudes..."
+	"Send nudes...",
+	"Feeding back farts..."
 ];
