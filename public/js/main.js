@@ -8,13 +8,13 @@ class Main {
 		this.sounds = new Sounds();
 		this.voiceChat = new VoiceChat();
 
-		//this.geolocation = new GeoService();
+		this.geolocation = new GeoService();
 
 		this.doStuffArr = doStuffArray;
 
 		this.doStuffElem.innerHTML = 'Welcome!'
 
-		this.positioner = new PositionHelper("camera");
+		this.camera = document.getElementById("camera");
 
 		setTimeout(this.removeInitializationScreen, 4000);
 		setInterval(function(){
@@ -27,16 +27,40 @@ class Main {
 		this.bindGeoEvents();
 	}
 
-	updateMyPosition(data){
-		//Update 3d here
-		this.positioner.updateObject("camera", data.lat, data.long);
-	}
-
 	updatePeerPosition(id, data){
-		console.log("DATA: ", id);
-		//Update 3d here
-			//no
-		this.positioner.updateObject(id, data.lat, data.long);
+		console.log("HIS POS!: ", data);
+
+		var factor = 1000;
+
+		var myData = this.geolocation.getPosition();
+
+		console.log("MY POS!: ", myData);
+
+		var myLat = myData.lat;
+		var myLong = myData.long;
+
+		var dist = this.geolocation.calcDistance(myLat, myLong, data.lat, data.long);
+		var bear = this.geolocation.calcBearing(myLat, myLong, data.lat, data.long);
+
+		var x = factor * (dist * Math.cos(bear));
+		var y = factor * (dist * Math.sin(bear));
+
+		var per = document.getElementById(id);
+
+		if (!per) {
+			var scene = document.getElementById("main-scene");
+			var element = document.createElement("a-sphere");
+			element.setAttribute("position", "0 0 0");
+			element.setAttribute("radius", "1.25");
+			element.setAttribute("color", "#FF88AA");
+			element.setAttribute("id", id);
+			scene.appendChild(element);
+			per = element;
+		}
+
+		per.setAttribute("position", x + " 2 " + y);
+
+		console.log("new pos: " + x + "," + y);	
 	}
 
 	bindWebrtcEvent(){
@@ -49,7 +73,7 @@ class Main {
 
 		this.voiceChat.on("disconnectedPeer", function(peer){
 			self.sounds.error();
-			self.positioner.removeObject(peer.id);
+			self.geolocation.removeObject(peer.id);
 		});
 
 
@@ -61,9 +85,9 @@ class Main {
 	bindGeoEvents(){
 		const self = this;
 
-		this.positioner.on("update", function(data) {
+		this.geolocation.on("update", function(data) {
 			self.voiceChat.broadcastData("data", data)
-			self.updateMyPosition(data);
+			//self.updateMyPosition(data);
 		});
 	}
 
