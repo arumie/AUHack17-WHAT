@@ -32,18 +32,25 @@
 			<div class="sk-cube4 sk-cube"></div>
 			<div class="sk-cube3 sk-cube"></div>
 		</div>
-		<p>Initializing</p>
+		<p>Waiting for peer...</p>
 		<div id="do-stuff"></div>
 	</div>
 
 	<a-scene id="main-scene">
 
-	<a-box position="0 0 0" height="0.1" width="10" depth="0.1" color="#FF0000"></a-box>
-	<a-box position="0 0 0" height="0.1" width="0.1" depth="10" color="#00FF00"></a-box>
-	<a-sky color="#ECECEC"></a-sky>
-	<a-entity>
-		<a-camera id="camera"></a-camera>
-	</a-entity>
+		<a-asset>
+			<img src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" id="grid" crossorigin="anonymous">
+	        <img id="sky" src="https://img.gs/bbdkhfbzkk/2048x2048,stretch/http://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous"/>
+		</a-asset>	
+
+		<a-entity
+	        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
+	        material="src: #grid; repeat: 10000 10000; transparent: true;metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+
+		<a-sky src="#sky" rotation="0 -90 0"></a-sky>
+		<a-entity>
+			<a-camera id="camera"></a-camera>
+		</a-entity>
 
 	</a-scene>
 </body>

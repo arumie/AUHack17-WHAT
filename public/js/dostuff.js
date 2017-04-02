@@ -50,5 +50,15 @@ const doStuffArray = [
 	"Feeding back farts...",
 	"So, who is this \"4CHAN\"??? ",
 	"Containing the wrath of the gods...",
-	"Installing Gentoo..."
+	"Installing Gentoo...",
+	"Throwing apples after the doctor...",
+	"Contacting the Gerball Commancenter",
+	"Hamtaro, vi er bedst når vi er sammen!",
+	"Jeg kan lide det. - Gerrard  Lysmark",
+	"Lemon Tree is about masturbation",
+	"Dakke dak",
+	"Tør man sige cannabis?",
+	"Letting the dogs out",
+	"Vidste du at vaskebjørne kan åbne 13 ud af 11 komplekse låse?",
+	"Do you produce less semen if you only have one nut?"
 ];

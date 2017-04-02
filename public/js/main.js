@@ -16,21 +16,23 @@ class Main {
 
 		this.camera = document.getElementById("camera");
 
-		setTimeout(this.removeInitializationScreen, 4000);
+		//setTimeout(this.removeInitializationScreen, 4000);
 		setInterval(function(){
 			var elem = document.getElementById("do-stuff");
 			var randomNr =   self.getRandomInt(0,self.doStuffArr.length-1);
 			self.doStuffElem.innerHTML = self.doStuffArr[randomNr];
-		}, 1000);
+		}, 2000);
 
 		this.bindWebrtcEvent();
 		this.bindGeoEvents();
 	}
 
 	updatePeerPosition(id, data){
+		this.removeInitializationScreen();
+
 		console.log("HIS POS!: ", data);
 
-		var factor = 1000;
+		var factor = 500;
 
 		var myData = this.geolocation.getPosition();
 
@@ -41,6 +43,8 @@ class Main {
 
 		var dist = this.geolocation.calcDistance(myLat, myLong, data.lat, data.long);
 		var bear = this.geolocation.calcBearing(myLat, myLong, data.lat, data.long);
+
+
 
 		var x = factor * (dist * Math.cos(bear));
 		var y = factor * (dist * Math.sin(bear));
@@ -72,6 +76,7 @@ class Main {
 		});
 
 		this.voiceChat.on("disconnectedPeer", function(peer){
+			console.log("DIS!", peer);
 			self.sounds.error();
 			self.geolocation.removeObject(peer.id);
 		});
@@ -92,8 +97,8 @@ class Main {
 	}
 
 	removeInitializationScreen() {
-		document.getElementById("loading-screen").style = "display: none";
-		document.getElementById("main-scene").style = "display: block";
+		document.getElementById("loading-screen").style = "opacity: 0;";
+		document.getElementById("main-scene").style = "opacity: 1";
 	}
 
 

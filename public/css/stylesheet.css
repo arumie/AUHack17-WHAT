@@ -20,6 +20,8 @@ html, body {
 	color: #777;
 	font-size: 2em;
 	z-index: 0;
+  	opacity: 1;
+	transition: all 2s linear;
 }
 
 #do-stuff {
@@ -27,5 +29,6 @@ html, body {
 }
 
 #main-scene {
-	display: none;
+	transition: all 2s linear;
+	opacity: 0;
 }
