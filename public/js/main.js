@@ -2,6 +2,9 @@ class Main {
 	constructor() {
 		const self = this;
 
+		this.peerId = {id: 0};
+		this.oldPeerPos = {};
+
 		this.doStuffElem = document.getElementById("do-stuff");
 		this.spatialSoundManager = new SpatialSoundManager();
 
@@ -64,7 +67,16 @@ class Main {
 
 		per.setAttribute("position", x + " 2 " + y);
 
+		this.oldPeerPos = {lat: data.lat, long: data.long};
+		this.peerId = {id: id};
+
 		console.log("new pos: " + x + "," + y);	
+	}
+
+	updateMyPosition(data){
+		if(this.peerId.length != 0 || this.oldPeerPos.length != 0){
+			this.updatePeerPosition(this.peerId.id, this.oldPeerPos);
+		}
 	}
 
 	bindWebrtcEvent(){
@@ -92,7 +104,9 @@ class Main {
 
 		this.geolocation.on("update", function(data) {
 			self.voiceChat.broadcastData("data", data)
-			//self.updateMyPosition(data);
+			if(self.peerId.id != 0){
+				self.updateMyPosition(data);
+			}			
 		});
 	}
 
@@ -105,6 +119,16 @@ class Main {
 	getRandomInt(min, max) {
   		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
+}
+
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
 }
 
 //init voicechat when dom is loaded
